@@ -1,9 +1,11 @@
-Feature: To-Do List Manager
+Feature: To-Do Add
 
   Scenario: Add a task to the to-do list
     Given the to-do list is empty
     When the user adds a task "Buy groceries"
     Then the to-do list should contain "Buy groceries"
+
+Feature: To-Do List 
 
   Scenario: List all tasks in the to-do list
     Given the to-do list contains tasks:
@@ -17,7 +19,7 @@ Feature: To-Do List Manager
       - Buy groceries
       - Pay bills
       """
-
+Feature: To-Do completed
   Scenario: Mark a task as completed
     Given the to-do list contains tasks:
       | Task          | Status  |
@@ -25,6 +27,16 @@ Feature: To-Do List Manager
     When the user marks task "Buy groceries" as completed
     Then the to-do list should show task "Buy groceries" as completed
 
+Feature: To-Do progress
+
+  Scenario: Mark a task as in progress
+    Given the to-do list contains tasks:
+      | Task          | Status  |
+      | Buy groceries | Pending |
+    When the user marks task "Buy groceries" as in progress
+    Then the to-do list should show task "Buy groceries" as in progress
+
+Feature: To-Do Clear
   Scenario: Clear the entire to-do list
     Given the to-do list contains tasks:
       | Task          |

@@ -19,6 +19,11 @@ class ToDoList:
             if task.description == description:
                 task.status = "Completed"
 
+    def mark_as_in_progress(self, description):
+      for task in self.tasks:
+          if task.description == description:
+              task.status = "In Progress"
+
     def clear(self):
         self.tasks = []
 
@@ -28,8 +33,9 @@ def main():
         print("1. Add a task")
         print("2. List all tasks")
         print("3. Mark a task as completed")
-        print("4. Clear the entire to-do list")
-        print("5. Exit")
+        print("4. Mark a task as in progress")
+        print("5. Clear the entire to-do list")
+        print("6. Exit")
         choice = input("Choose an option: ")
         if choice == "1":
             description = input("Enter the task description: ")
@@ -40,14 +46,17 @@ def main():
             if len(tasks) == 0:
                 print("No tasks")
             else:
-              for task, status in tasks:
-                print(f"- {task} ({status})")
+                for task, status in tasks:
+                    print(f"- {task} ({status})")
         elif choice == "3":
             description = input("Enter the task description to mark as completed: ")
             todo_list.mark_as_completed(description)
         elif choice == "4":
-            todo_list.clear()
+            description = input("Enter the task description to mark as in progress: ")
+            todo_list.mark_as_in_progress(description)
         elif choice == "5":
+            todo_list.clear()
+        elif choice == "6":
             break
         else:
             print("Invalid choice. Please try again.")

@@ -1,5 +1,5 @@
 from behave import given, when, then
-from todo_list import ToDoList
+from todo_list import ToDoList, Task
 
 @given('the to-do list is empty')
 def step_impl(context):
@@ -13,17 +13,18 @@ def step_impl(context, description):
 def step_impl(context, description):
     assert (description, "Pending") in context.todo_list.list_tasks()
 
-@given('the to-do list contains tasks:')
+@given(u'the to-do list contains tasks')
 def step_impl(context):
     context.todo_list = ToDoList()
     for row in context.table:
-        context.todo_list.add_task(row['Task'])
+        task = Task(row['Task'], row.get('Status', 'Pending'))
+        context.todo_list.tasks.append(task)
 
 @when('the user lists all tasks')
 def step_impl(context):
     context.output = context.todo_list.list_tasks()
 
-@then('the output should contain:')
+@then(u'the output should contain')
 def step_impl(context):
     expected_output = context.text.strip().split("\n")[1:]
     expected_output = [(line[2:].strip(), "Pending") for line in expected_output]
@@ -36,6 +37,15 @@ def step_impl(context, description):
 @then('the to-do list should show task "{description}" as completed')
 def step_impl(context, description):
     assert (description, "Completed") in context.todo_list.list_tasks()
+
+@when('the user marks task "{description}" as in progress')
+def step_impl(context, description):
+    context.todo_list.mark_as_in_progress(description)
+
+@then('the to-do list should show task "{description}" as in progress')
+def step_impl(context, description):
+    assert (description, "In Progress") in context.todo_list.list_tasks()
+
 
 @when('the user clears the to-do list')
 def step_impl(context):
